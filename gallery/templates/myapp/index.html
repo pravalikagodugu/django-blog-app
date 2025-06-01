@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Website</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right,rgb(67, 92, 95),rgb(162, 219, 226));
+        }
+        .custom-heading {
+             color:rgb(216, 225, 235); /* Dark blue-gray */
+             text-shadow: 1px 1px 2px rgba(9, 120, 124, 0.2) 
+        }
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            border-radius: 15px;
+        }
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+
+    <!-- Top navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="custom-heading">Today's New Blogs</h1>
+
+        <div>
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                |
+                <a href="/admin/" class="btn btn-sm btn-outline-primary">Admin</a>
+                <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-sm btn-outline-success">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Blog cards -->
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <a href="{% url 'product_detail' product.pk %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
+                </a>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.short_description }}</p>
+                    <a href="{% url 'edit_product' product.pk %}">Edit</a> |
+                    <a href="{% url 'delete_product' product.pk %}">Delete</a><br>
+                    <small>Created: {{ product.created_at }}</small><br>
+                    <small>Updated: {{ product.updated_at }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
