@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
 from .models import Product
 from .forms import ProductForm
@@ -32,4 +33,5 @@ def delete_product(request, pk):
         return redirect('product_list')
     return render(request, 'myapp/delete.html', {'product': product})
 
-# Create your views here.
+class CustomLogoutView(LogoutView):
+    http_method_names = ['get', 'post']
