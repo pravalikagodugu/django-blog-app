@@ -12,8 +12,7 @@
 python manage.py runserver
 
 Visit
-Admin: http://127.0.0.1:8000/admin/
 
-Site: http://127.0.0.1:8000/
+Site: https://django-blog-app-55zu.onrender.com
 
 
